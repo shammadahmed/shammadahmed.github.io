@@ -26,7 +26,16 @@ body{
   background:var(--bg);color:var(--ink);
   font-family:'Inter',sans-serif;font-weight:300;
   line-height:1.7;
+  perspective:1200px;
+  transform-style:preserve-3d;
+  position:relative;
 }
+body::before{
+  content:'';position:fixed;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(135deg,transparent 0%,rgba(184,136,42,.04) 50%,transparent 100%);
+  animation:gradientMove 12s ease infinite;pointer-events:none;z-index:0;
+}
+@keyframes gradientMove{0%,100%{opacity:.4;transform:rotate(0deg)}50%{opacity:.7;transform:rotate(5deg)}}
 a{color:var(--gold);text-decoration:none}
 a:hover{text-decoration:underline}
 
@@ -155,6 +164,123 @@ nav{
   color:var(--mid);letter-spacing:.03em;
 }
 .skill-pill.hi{background:var(--gold-gl);border-color:var(--gold-bd);color:var(--gold)}
+
+/* ── 3D EFFECTS ── */
+.res-header{
+  animation:headerFloat 8s ease-in-out infinite;
+  transform-style:preserve-3d;
+}
+@keyframes headerFloat{0%,100%{transform:translateY(0) rotateX(0)}50%{transform:translateY(-5px) rotateX(1deg)}}
+
+.exp-entry{
+  transition:transform .4s,box-shadow .4s,border-color .3s;
+  transform-style:preserve-3d;
+  position:relative;
+}
+.exp-entry::before{
+  content:'';position:absolute;inset:-30px;
+  background:radial-gradient(circle,rgba(184,136,42,.2),transparent 70%);
+  opacity:0;transition:opacity .4s;z-index:-1;
+  filter:blur(35px);
+}
+.exp-entry:hover::before{opacity:1}
+.exp-entry:hover{
+  transform:translateY(-10px) rotateX(4deg) translateZ(20px) scale(1.02);
+  box-shadow:0 30px 80px rgba(184,136,42,.25);
+  border-color:var(--gold);
+}
+
+.edu-entry{
+  transition:transform .4s,box-shadow .4s,border-color .3s;
+  transform-style:preserve-3d;
+  position:relative;
+}
+.edu-entry::before{
+  content:'';position:absolute;inset:-30px;
+  background:radial-gradient(circle,rgba(184,136,42,.2),transparent 70%);
+  opacity:0;transition:opacity .4s;z-index:-1;
+  filter:blur(35px);
+}
+.edu-entry:hover::before{opacity:1}
+.edu-entry:hover{
+  transform:translateY(-10px) rotateX(4deg) translateZ(20px) scale(1.02);
+  box-shadow:0 30px 80px rgba(184,136,42,.25);
+  border-color:var(--gold);
+}
+
+.skill-pill{
+  transition:transform .4s,background .3s,box-shadow .4s;
+  transform-style:preserve-3d;
+  position:relative;
+  animation:pillSpin 25s linear infinite;
+}
+@keyframes pillSpin{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
+.skill-pill:hover{
+  transform:translateY(-5px) rotateY(180deg) translateZ(15px) scale(1.15);
+  background:linear-gradient(135deg,var(--bg),var(--bg2));
+  box-shadow:0 15px 40px rgba(184,136,42,.2);
+  animation-play-state:paused;
+}
+.skill-pill.hi{animation-duration:15s}
+.skill-pill.hi:hover{
+  background:linear-gradient(135deg,var(--gold-gl),rgba(212,160,64,.15));
+  box-shadow:0 15px 40px rgba(184,136,42,.3);
+}
+
+.nav-print{
+  transition:background .2s,transform .3s,box-shadow .4s;
+  transform-style:preserve-3d;
+  position:relative;
+}
+.nav-print::before{
+  content:'';position:absolute;inset:-15px;
+  background:radial-gradient(circle,rgba(184,136,42,.3),transparent);
+  opacity:0;transition:opacity .4s;z-index:-1;
+  filter:blur(25px);
+}
+.nav-print:hover::before{opacity:1}
+.nav-print:hover{
+  background:var(--gold);color:#fff;
+  transform:translateY(-5px) translateZ(20px) scale(1.1);
+  box-shadow:0 20px 50px rgba(184,136,42,.4);
+}
+
+.pub-item{
+  transition:transform .3s,color .3s;
+}
+.pub-item:hover{
+  transform:translateX(15px) translateZ(10px);
+}
+.pub-item:hover a{
+  color:var(--gold);
+  text-shadow:0 2px 10px rgba(184,136,42,.3);
+}
+
+.res-name{
+  animation:nameGlow 4s ease-in-out infinite;
+}
+@keyframes nameGlow{0%,100%{text-shadow:0 0 20px rgba(184,136,42,.2)}50%{text-shadow:0 0 40px rgba(184,136,42,.4),0 0 60px rgba(184,136,42,.2)}}
+
+/* Disable 3D on mobile */
+@media(max-width:640px){
+  body::before{display:none}
+  .res-header{animation:none}
+  .res-name{animation:none}
+  .exp-entry:hover,.edu-entry:hover{
+    transform:translateY(-5px) scale(1.01);
+  }
+  .skill-pill{animation:none}
+  .skill-pill:hover{
+    transform:translateY(-3px) scale(1.1);
+  }
+  .nav-print:hover{
+    transform:translateY(-3px) scale(1.05);
+  }
+  .pub-item:hover{
+    transform:translateX(8px);
+  }
+  .exp-entry::before,.edu-entry::before,.nav-print::before{display:none}
+}
 
 /* ── PRINT ── */
 @media print{
